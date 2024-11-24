@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import Sidebar from '../Components/Sidebar.jsx'
-import MapView from '../Components/MapView.jsx';
+import MapView from '../Components/Mapview.jsx';
 
 function App() {
     return (
@@ -9,7 +9,7 @@ function App() {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        WebGIS Application
+                        WebGIS Template
                     </Typography>
                     <Button color="inherit">Home</Button>
                     <Button color="inherit">About</Button>
