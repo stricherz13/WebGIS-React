@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Typography, TextField, Button, Paper, Box } from '@mui/material';
 
-function Sidebar() {
+function Sidebar({ setMapCenter }) {
     const [formData, setFormData] = useState({});
+    const [searchText, setSearchText] = useState('');
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -17,29 +18,59 @@ function Sidebar() {
         console.log(formData);
     };
 
+    const handleSearch = async () => {
+        if (!searchText.trim()) return;
+
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+                    searchText
+                )}`
+            );
+            const results = await response.json();
+            if (results.length > 0) {
+                const { lat, lon } = results[0];
+                setMapCenter([parseFloat(lat), parseFloat(lon)]);
+            } else {
+                alert('Location not found.');
+            }
+        } catch (error) {
+            console.error('Error fetching location:', error);
+        }
+    };
+
     return (
         <Paper sx={{ width: '300px', padding: 2, overflowY: 'auto' }}>
-            <Typography variant="h6">Interactive Form</Typography>
-            <Box component="form" onSubmit={handleFormSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ marginTop: 2 }}>
+                <Typography variant="h6">Search Location</Typography>
                 <TextField
-                    label="Name"
-                    name="name"
+                    label="Search"
                     variant="outlined"
                     size="small"
-                    onChange={handleInputChange}
+                    fullWidth
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    sx={{ marginBottom: 1 }}
                 />
-                <TextField
-                    label="Description"
-                    name="description"
-                    variant="outlined"
-                    size="small"
-                    multiline
-                    rows={4}
-                    onChange={handleInputChange}
-                />
-                <Button type="submit" variant="contained" color="primary">
-                    Submit
+                <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={handleSearch}
+                >
+                    Search
                 </Button>
+            </Box>
+            <Typography variant="h6">Query Data</Typography>
+            <Box component="form" onSubmit={handleFormSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                    <Button type="submit" variant="contained" color="primary">
+                        Submit
+                    </Button>
+                    <Button type="reset" variant="contained" color="secondary">
+                        Reset
+                    </Button>
+                </Box>
             </Box>
         </Paper>
     );
