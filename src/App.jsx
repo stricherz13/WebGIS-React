@@ -2,18 +2,14 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import Sidebar from '../Components/Sidebar.jsx';
 import MapView from '../Components/Mapview.jsx';
+import useStore from '../src/store/useStore';
 
 function App() {
-    const [mapCenter, setMapCenter] = useState([38.64, -90.3]);
-    const [aboutOpen, setAboutOpen] = useState(false);
-
-    const handleAboutOpen = () => {
-        setAboutOpen(true);
-    };
-
-    const handleAboutClose = () => {
-        setAboutOpen(false);
-    };
+    const mapCenter = useStore((state) => state.mapCenter); // Access state
+    const setMapCenter = useStore((state) => state.setMapCenter); // Access actions
+    const aboutOpen = useStore((state) => state.aboutOpen);
+    const openAbout = useStore((state) => state.openAbout);
+    const closeAbout = useStore((state) => state.closeAbout);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
@@ -23,7 +19,7 @@ function App() {
                         WebGIS Application Template
                     </Typography>
                     <Button color="inherit" onClick={() => window.location.reload()}>Home</Button>
-                    <Button color="inherit" onClick={handleAboutOpen}>About</Button>
+                    <Button color="inherit" onClick={openAbout}>About</Button>
                     <Button color="inherit">Sign in</Button>
                 </Toolbar>
             </AppBar>
@@ -34,7 +30,7 @@ function App() {
             </Box>
 
             {/* About Modal */}
-            <Dialog open={aboutOpen} onClose={handleAboutClose}>
+            <Dialog open={aboutOpen} onClose={closeAbout}>
                 <DialogTitle>About This Application</DialogTitle>
                 <DialogContent>
                     <Typography>
@@ -44,7 +40,7 @@ function App() {
                     </Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleAboutClose} color="primary">
+                    <Button onClick={closeAbout} color="primary">
                         Close
                     </Button>
                 </DialogActions>
