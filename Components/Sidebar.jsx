@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Typography, TextField, Button, Paper, Box } from '@mui/material';
+import { Typography, TextField, Button, Paper, Box, IconButton } from '@mui/material';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 function Sidebar({ setMapCenter }) {
     const [formData, setFormData] = useState({});
     const [searchText, setSearchText] = useState('');
+    const [isCollapsed, setIsCollapsed] = useState(false); // State to manage collapse
 
-    const handleInputChange = (event) => {
+    const handleFormInputChange = (event) => {
         const { name, value } = event.target;
         setFormData((prev) => ({
             ...prev,
@@ -40,39 +42,66 @@ function Sidebar({ setMapCenter }) {
     };
 
     return (
-        <Paper sx={{ width: '300px', padding: 2, overflowY: 'auto' }}>
-            <Box sx={{ marginTop: 2 }}>
-                <Typography variant="h6">Search Location</Typography>
-                <TextField
-                    label="Search"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    sx={{ marginBottom: 1 }}
-                />
-                <Button
-                    variant="contained"
-                    color="primary"
-                    fullWidth
-                    onClick={handleSearch}
+        <Box sx={{ display: 'flex', height: '100%' }}>
+            <Paper
+                sx={{
+                    width: isCollapsed ? '50px' : '300px',
+                    transition: 'width 0.3s',
+                    padding: isCollapsed ? 1 : 2,
+                    overflowY: 'auto',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                }}
+            >
+                <IconButton
+                    onClick={() => setIsCollapsed((prev) => !prev)}
+                    sx={{ alignSelf: 'flex-end', marginBottom: 2 }}
                 >
-                    Search
-                </Button>
-            </Box>
-            <Typography variant="h6">Query Data</Typography>
-            <Box component="form" onSubmit={handleFormSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
-                    <Button type="submit" variant="contained" color="primary">
-                        Submit
-                    </Button>
-                    <Button type="reset" variant="contained" color="secondary">
-                        Reset
-                    </Button>
-                </Box>
-            </Box>
-        </Paper>
+                    {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
+                </IconButton>
+
+                {!isCollapsed && (
+                    <Box sx={{ width: '100%' }}>
+                        <Box sx={{ marginTop: 2 }}>
+                            <Typography variant="h6">Search Location</Typography>
+                            <TextField
+                                label="Search"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
+                                sx={{ marginBottom: 1 }}
+                            />
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                fullWidth
+                                onClick={handleSearch}
+                            >
+                                Search
+                            </Button>
+                        </Box>
+                        <Typography variant="h6">Query Data</Typography>
+                        <Box
+                            component="form"
+                            onSubmit={handleFormSubmit}
+                            sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
+                        >
+                            <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1 }}>
+                                <Button type="submit" variant="contained" color="primary">
+                                    Submit
+                                </Button>
+                                <Button type="reset" variant="contained" color="secondary">
+                                    Reset
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Box>
+                )}
+            </Paper>
+        </Box>
     );
 }
 
