@@ -17,8 +17,11 @@ function HomeButton({ defaultCenter }) {
             sx={{
                 position: 'absolute',
                 top: 80,
-                left: 7,
+                left: 9,
                 zIndex: 1000,
+                width: '36px',
+                height: '36px',
+                padding: '4px',
                 backgroundColor: 'white',
                 border: 'grey 1px solid',
                 '&:hover': {
