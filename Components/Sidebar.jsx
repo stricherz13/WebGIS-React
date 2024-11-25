@@ -65,23 +65,31 @@ function Sidebar({ setMapCenter }) {
                     <Box sx={{ width: '100%' }}>
                         <Box sx={{ marginTop: 2 }}>
                             <Typography variant="h6">Search Location</Typography>
-                            <TextField
-                                label="Search"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                                sx={{ marginBottom: 1 }}
-                            />
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                                onClick={handleSearch}
+                            <Box
+                                component="form"
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    handleSearch(); // Trigger the search when the form is submitted
+                                }}
                             >
-                                Search
-                            </Button>
+                                <TextField
+                                    label="Search"
+                                    variant="outlined"
+                                    size="small"
+                                    fullWidth
+                                    value={searchText}
+                                    onChange={(e) => setSearchText(e.target.value)}
+                                    sx={{ marginBottom: 1 }}
+                                />
+                                <Button
+                                    type="submit" // Set the button type to "submit"
+                                    variant="contained"
+                                    color="primary"
+                                    fullWidth
+                                >
+                                    Search
+                                </Button>
+                            </Box>
                         </Box>
                         <Typography variant="h6">Query Data</Typography>
                         <Box
