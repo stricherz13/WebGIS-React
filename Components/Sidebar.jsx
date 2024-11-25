@@ -7,14 +7,6 @@ function Sidebar({ setMapCenter }) {
     const [searchText, setSearchText] = useState('');
     const [isCollapsed, setIsCollapsed] = useState(false); // State to manage collapse
 
-    const handleFormInputChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-    };
-
     const handleFormSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
