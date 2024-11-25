@@ -1,7 +1,35 @@
 import React, {useEffect} from 'react';
 import {MapContainer, TileLayer, LayersControl, useMap} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Box } from '@mui/material';
+import {Box, IconButton} from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+
+function HomeButton({ defaultCenter }) {
+    const map = useMap();
+
+    const handleHomeClick = () => {
+        map.setView(defaultCenter, 11);
+    };
+
+    return (
+        <IconButton
+            onClick={handleHomeClick}
+            sx={{
+                position: 'absolute',
+                top: 80,
+                left: 7,
+                zIndex: 1000,
+                backgroundColor: 'white',
+                border: 'grey 1px solid',
+                '&:hover': {
+                    backgroundColor: '#f0f0f0',
+                },
+            }}
+        >
+            <HomeIcon />
+        </IconButton>
+    );
+}
 
 function MapUpdater({ mapCenter }) {
     const map = useMap();
@@ -18,6 +46,9 @@ function MapUpdater({ mapCenter }) {
 function MapView({ mapCenter }) {
     const { BaseLayer } = LayersControl;
 
+    // Set your default center
+    const defaultCenter = [38.64, -90.3]
+
     return (
         <Box sx={{ flex: 1, position: 'relative' }}>
             <MapContainer
@@ -25,6 +56,7 @@ function MapView({ mapCenter }) {
                 zoom={11}
                 style={{ height: '100%', width: '100%' }}
             >
+                <HomeButton defaultCenter={defaultCenter} />
                 <MapUpdater mapCenter={mapCenter} />
                 {/* Layers Control */}
                 <LayersControl position="bottomleft">
