@@ -1,11 +1,13 @@
-import React, {useEffect} from 'react';
-import {MapContainer, TileLayer, LayersControl, useMap} from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import {Box, IconButton} from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import useStore from '../src/store/useStore';
 
-function HomeButton({ defaultCenter }) {
+function HomeButton() {
     const map = useMap();
+    const defaultCenter = useStore((state) => state.defaultCenter);
 
     const handleHomeClick = () => {
         map.setView(defaultCenter, 11);
@@ -34,8 +36,9 @@ function HomeButton({ defaultCenter }) {
     );
 }
 
-function MapUpdater({ mapCenter }) {
+function MapUpdater() {
     const map = useMap();
+    const mapCenter = useStore((state) => state.mapCenter);
 
     useEffect(() => {
         if (mapCenter) {
@@ -46,11 +49,9 @@ function MapUpdater({ mapCenter }) {
     return null; // This component doesn't render anything
 }
 
-function MapView({ mapCenter }) {
+function MapView() {
     const { BaseLayer } = LayersControl;
-
-    // Set your default center
-    const defaultCenter = [38.64, -90.3]
+    const mapCenter = useStore((state) => state.mapCenter);
 
     return (
         <Box sx={{ flex: 1, position: 'relative' }}>
@@ -59,8 +60,8 @@ function MapView({ mapCenter }) {
                 zoom={11}
                 style={{ height: '100%', width: '100%' }}
             >
-                <HomeButton defaultCenter={defaultCenter} />
-                <MapUpdater mapCenter={mapCenter} />
+                <HomeButton />
+                <MapUpdater />
                 {/* Layers Control */}
                 <LayersControl position="bottomleft">
                     {/* Base Layers */}
