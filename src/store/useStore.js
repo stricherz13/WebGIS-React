@@ -8,6 +8,15 @@ const useStore = create((set) => ({
     aboutOpen: false, // State for dialog
     openAbout: () => set({ aboutOpen: true }),
     closeAbout: () => set({ aboutOpen: false }),
+
+    geoJsonData: null,
+    setGeoJsonData: (data) => {
+        if (!data) {
+            console.warn("Invalid GeoJSON data");
+            return;
+        }
+        set({ geoJsonData: data });
+    },
 }));
 
 export default useStore;

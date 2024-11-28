@@ -2,27 +2,31 @@ import { AppBar, Toolbar, Typography, Button, Box, Dialog, DialogTitle, DialogCo
 import Sidebar from '../Components/Sidebar.jsx';
 import MapView from '../Components/Mapview.jsx';
 import useStore from '../src/store/useStore';
+import CollapsibleTable from "../Components/CollapsibleTable.jsx";
 
 function App() {
-    const mapCenter = useStore((state) => state.mapCenter); // Access state
-    const setMapCenter = useStore((state) => state.setMapCenter); // Access actions
+    // Zustand state and actions
+    const mapCenter = useStore((state) => state.mapCenter);
+    const setMapCenter = useStore((state) => state.setMapCenter);
     const aboutOpen = useStore((state) => state.aboutOpen);
     const openAbout = useStore((state) => state.openAbout);
     const closeAbout = useStore((state) => state.closeAbout);
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+            {/* Top Navigation Bar */}
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
                         WebGIS Application Template
                     </Typography>
-                    <Button color="inherit" onClick={() => window.location.reload()}>Home</Button>
-                    <Button color="inherit" onClick={openAbout}>About</Button>
-                    <Button color="inherit">Sign in</Button>
+                    <Button color="inherit" onClick={() => window.location.reload()} aria-label="Reload Page">Home</Button>
+                    <Button color="inherit" onClick={openAbout} aria-label="Open About Modal">About</Button>
+                    <Button color="inherit" aria-label="Sign In">Sign in</Button>
                 </Toolbar>
             </AppBar>
 
+            {/* Main Content Area */}
             <Box sx={{ display: 'flex', flex: 1 }}>
                 <Sidebar setMapCenter={setMapCenter} />
                 <MapView mapCenter={mapCenter} />
