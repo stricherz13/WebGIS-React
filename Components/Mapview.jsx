@@ -1,9 +1,18 @@
-import React, { useEffect } from 'react';
-import { MapContainer, TileLayer, LayersControl, useMap } from 'react-leaflet';
+import React, {useEffect, useState} from 'react';
+import { MapContainer, TileLayer, LayersControl, useMap, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import '../src/App.css';
 import { Box, IconButton } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import useStore from '../src/store/useStore';
+
+const gpsLocationIcon = L.divIcon({
+    className: 'gps-location-icon',
+    iconSize: [16, 16],
+    html: `<div class="gps-marker"></div>`,
+});
 
 function HomeButton() {
     const map = useMap();
@@ -18,7 +27,7 @@ function HomeButton() {
             onClick={handleHomeClick}
             sx={{
                 position: 'absolute',
-                top: 80,
+                top: 85,
                 left: 9,
                 zIndex: 1000,
                 width: '36px',
@@ -36,9 +45,54 @@ function HomeButton() {
     );
 }
 
+function GpsButton({ setUserLocation }) {
+    const map = useMap();
+
+    const handleGpsClick = () => {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { latitude, longitude } = position.coords;
+                    map.setView([latitude, longitude], 14);
+                    setUserLocation([latitude, longitude]);
+                },
+                (error) => {
+                    console.error('Error fetching GPS location:', error);
+                    alert('Unable to retrieve your location.');
+                }
+            );
+        } else {
+            alert('Geolocation is not supported by your browser.');
+        }
+    };
+
+    return (
+        <IconButton
+            onClick={handleGpsClick}
+            sx={{
+                position: 'absolute',
+                top: 130,
+                left: 9,
+                zIndex: 1000,
+                width: '36px',
+                height: '36px',
+                padding: '4px',
+                backgroundColor: 'white',
+                border: 'grey 1px solid',
+                '&:hover': {
+                    backgroundColor: '#f0f0f0',
+                },
+            }}
+        >
+            <GpsFixedIcon />
+        </IconButton>
+    );
+}
+
 function MapUpdater() {
     const map = useMap();
     const mapCenter = useStore((state) => state.mapCenter);
+
 
     useEffect(() => {
         if (mapCenter) {
@@ -52,6 +106,7 @@ function MapUpdater() {
 function MapView() {
     const { BaseLayer } = LayersControl;
     const mapCenter = useStore((state) => state.mapCenter);
+    const [userLocation, setUserLocation] = useState(null);
 
     return (
         <Box sx={{ flex: 1, position: 'relative' }}>
@@ -61,7 +116,11 @@ function MapView() {
                 style={{ height: '100%', width: '100%' }}
             >
                 <HomeButton />
+                <GpsButton setUserLocation={setUserLocation} />
                 <MapUpdater />
+                {userLocation && (
+                    <Marker position={userLocation} icon={gpsLocationIcon} />
+                )}
                 {/* Layers Control */}
                 <LayersControl position="bottomleft">
                     {/* Base Layers */}
