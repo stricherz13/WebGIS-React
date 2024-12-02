@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Typography, Button, Box, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import Sidebar from '../Components/Sidebar.jsx';
 import MapView from '../Components/Mapview.jsx';
+import CollapsibleTable from "../Components/CollapsableTable.jsx";
 import useStore from '../src/store/useStore';
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
     const closeAbout = useStore((state) => state.closeAbout);
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
@@ -23,9 +24,10 @@ function App() {
                 </Toolbar>
             </AppBar>
 
-            <Box sx={{ display: 'flex', flex: 1 }}>
+            <Box sx={{ display: 'flex', flex: 1, position: 'relative' }}>
                 <Sidebar setMapCenter={setMapCenter} />
                 <MapView mapCenter={mapCenter} />
+                <CollapsibleTable />
             </Box>
 
             {/* About Modal */}

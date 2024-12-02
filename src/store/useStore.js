@@ -5,6 +5,9 @@ const useStore = create((set) => ({
     mapCenter: [38.64, -90.3], // Default map center
     setMapCenter: (newCenter) => set({ mapCenter: newCenter }),
 
+    isTableCollapsed: true,
+    toggleTable: () => set((state) => ({ isTableCollapsed: !state.isTableCollapsed })),
+
     aboutOpen: false, // State for dialog
     openAbout: () => set({ aboutOpen: true }),
     closeAbout: () => set({ aboutOpen: false }),
