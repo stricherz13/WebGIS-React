@@ -11,14 +11,23 @@ const CollapsibleTable = () => {
     });
 
     return (
-        <Box>
-            {/* Floating Button */}
+        <Box
+            sx={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1500,
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
+            {/* Button */}
             <Box
                 sx={{
-                    position: 'fixed',
-                    bottom: 16,
-                    right: 16,
-                    zIndex: 1000, // Ensure visibility above all components
+                    alignSelf: 'flex-end',
+                    margin: 1,
+                    marginBottom: 3,
                 }}
             >
                 <Button variant="contained" onClick={toggleTable}>
@@ -30,23 +39,19 @@ const CollapsibleTable = () => {
             {!isTableCollapsed && (
                 <Box
                     sx={{
-                        position: 'fixed',
-                        bottom: 60, // Offset above the button
-                        right: 16,
-                        width: '90vw',
-                        maxWidth: 800,
-                        height: 400,
+                        height: 600,
+                        width: '100%',
                         backgroundColor: 'white',
                         boxShadow: 3,
                         borderRadius: 1,
                         overflow: 'hidden',
-                        zIndex: 999, // Below button, above map
+                        zIndex: 1,
                     }}
                 >
                     <Typography variant="h6" sx={{ padding: 1 }}>
                         Collapsible Table
                     </Typography>
-                    <Box sx={{ height: 350, width: '100%' }}>
+                    <Box sx={{ height: 550, width: '100%' }}>
                         <DataGrid
                             {...data}
                             loading={loading}

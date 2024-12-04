@@ -26,8 +26,10 @@ function App() {
 
             <Box sx={{ display: 'flex', flex: 1, position: 'relative' }}>
                 <Sidebar setMapCenter={setMapCenter} />
-                <MapView mapCenter={mapCenter} />
-                <CollapsibleTable />
+                <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                    <MapView mapCenter={mapCenter} style={{ flex: 1 }} />
+                    <CollapsibleTable />
+                </Box>
             </Box>
 
             {/* About Modal */}
