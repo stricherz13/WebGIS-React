@@ -49,7 +49,7 @@ const CollapsibleTable = () => {
                     }}
                 >
                     <Typography variant="h6" sx={{ padding: 1 }}>
-                        Collapsible Table
+                        Attribute Table
                     </Typography>
                     <Box
                         sx={{
