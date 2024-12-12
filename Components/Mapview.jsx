@@ -147,7 +147,12 @@ function MapView() {
                     <Marker position={userLocation} icon={gpsLocationIcon} />
                 )}
                 {/* Layers Control */}
-                <LayersControl position="bottomleft">
+                <LayersControl
+                style={{
+                    top: '20px',
+                    position: 'absolute',
+                    zIndex: 1001,
+                }}>
                     {/* Base Layers */}
                     <BaseLayer checked name="OpenStreetMap">
                         <TileLayer
