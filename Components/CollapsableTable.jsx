@@ -39,7 +39,7 @@ const CollapsibleTable = () => {
             {!isTableCollapsed && (
                 <Box
                     sx={{
-                        height: 700,
+                        height: '70%,',
                         width: '100%',
                         backgroundColor: 'white',
                         boxShadow: 3,
